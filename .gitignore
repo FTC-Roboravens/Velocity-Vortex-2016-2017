@@ -24,5 +24,8 @@ Thumbs.db
 .gradle
 build/
 
-*ASUS_PC_01*
+#Eclipse
+.metadata/
+
+*ASUS_PC_01
 
