@@ -34,19 +34,18 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwareK9bot;
-
 //Hardware for the robot is defined by HardwareRobo1
 
 //@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOpRobo1", group="Robo1")
-public class TeleOpRobo1 extends LinearOpMode {
+public class ServoTest extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareRobo1   robot           = new HardwareRobo1();              // Use a K9'shardware
     @Override
     public void runOpMode() throws InterruptedException {
-        double left;
-        double right;
+        double Ch1;
+        double Ch2;
+        double Ch3;
 
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -64,17 +63,18 @@ public class TeleOpRobo1 extends LinearOpMode {
         while (opModeIsActive()) {
 
             // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-//            left = -gamepad1.left_stick_y;
-//            right = -gamepad1.right_stick_y;
-//            robot.leftMotor.setPower(left);
-//            robot.rightMotor.setPower(right);
+//            Ch1 = gamepad1.right_stick_x;
+//            Ch2 = gamepad1.left_stick_y;
+//            Ch3 = gamepad1.left_stick_x;
+//            robot.leftUpMotor.setPower();
+//            robot.rightUpMotor.setPower();
+//            robot.leftDownMotor.setPower();
+//            robot.rightDownMotor.setPower();
 //
 //            // Send telemetry message to signify robot running;
 //            telemetry.addData("left",  "%.2f", left);
 //            telemetry.addData("right", "%.2f", right);
-//            telemetry.addData("Color Light", robot.cSensorLine.alpha());
-//            telemetry.addData("Color Red", robot.cSensorButton.red());
-//            telemetry.update();
+            telemetry.update();
 
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
             robot.waitForTick(40);

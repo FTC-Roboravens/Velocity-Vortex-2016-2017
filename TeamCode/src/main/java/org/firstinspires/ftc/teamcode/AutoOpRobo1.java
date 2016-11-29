@@ -32,25 +32,30 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.vuforia.HINT;
+import com.vuforia.Vuforia;
+
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 //Hardware for the robot is defined by HardwareRobo1
-
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="AutoOpRobo1", group="Robo1")
+@Autonomous(name="Auto1", group = "Robo1")
+//@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="AutoOpRobo1", group="Robo1")
 public class AutoOpRobo1 extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareRobo1   robot           = new HardwareRobo1();              // Use a K9's hardware
-    int WHITE_LINE_LIGHT_THRESHOLD = 80;
-    int BLUE_LIGHT_THRESHOLD = 80;
-    boolean turning_left = true;
+    HardwareRobo1   robot           = new HardwareRobo1();// Use a K9's hardware
+    boolean isTracking = false;
+    VectorF trans = null;
     @Override
     public void runOpMode() throws InterruptedException {
-        double left = -.5;
-        double right = .5;
-        double servo1Pos = 0;
-        double servo2Pos = 0;
-        double servoIncrement = .01;
 
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -61,54 +66,138 @@ public class AutoOpRobo1 extends LinearOpMode {
         telemetry.addData("Say", "Running Autonomous");    //
         telemetry.update();
 
-        // Wait for the game to start (driver presses PLAY)
+        VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId);
+        params.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        params.vuforiaLicenseKey = "AbnwLPb/////AAAAGbZt0tXfv0+Xm9x4mKReybCGiDabToKD8Cj8lhIlHaNr56qx0TWoO+j3DvgPpRaXAZTgspbiBybsoRGhwCdO3Yt/6aA4USE9StUPcePbyL04IiUMNprqc9PzR7GG6vS6YQvnLYOjvrZTAQtO87krd1tJDYsYCY3coFwp3fsP7DudnCqoLk3D2po/QD56f9CenPq5J+dw4t3cOc+o05yQR4LCH9AWr+iG+1MaFUWhkHjkvfn1WmCCqW8kjNKtEJIXucAsA2z0PLUXDYsxJxm7WIQYc+HZGnElG/0isWaL0048nt7mMvLy7igRo2eGvVtt7lWdajrRKuZLrnJSWd/fjs7wVZ0jqv2NPIqwlp97k0qT";
+        params.cameraMonitorFeedback = VuforiaLocalizer.Parameters.CameraMonitorFeedback.AXES;
+
+        VuforiaLocalizer vuforia = ClassFactory.createVuforiaLocalizer(params);
+        Vuforia.setHint(HINT.HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, 4);
+        VuforiaTrackables beacons = vuforia.loadTrackablesFromAsset("FTC_2016-17");
+        beacons.get(0).setName("Wheels");
+        beacons.get(1).setName("Tools");
+        beacons.get(2).setName("Lego");
+        beacons.get(3).setName("Gears");
+
         waitForStart();
+
+        beacons.activate();
+
+        VuforiaTrackableDefaultListener lis0 = (VuforiaTrackableDefaultListener)beacons.get(0).getListener();
+        VuforiaTrackableDefaultListener lis1 = (VuforiaTrackableDefaultListener)beacons.get(1).getListener();
+        VuforiaTrackableDefaultListener lis2 = (VuforiaTrackableDefaultListener)beacons.get(2).getListener();
+        VuforiaTrackableDefaultListener lis3 = (VuforiaTrackableDefaultListener)beacons.get(3).getListener();
+
+
+        // Wait for the game to start (driver presses PLAY)
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            //Line Following: Not Tested
+            right(1);
 
-            if(robot.cSensorLine.alpha()>WHITE_LINE_LIGHT_THRESHOLD){
-                if(turning_left){
-                    turning_left = false;
-                    robot.rightMotor.setPower(right);
-                    robot.leftMotor.setPower(0);
+            if(lis0.isVisible() && !isTracking){
+                trans = lis0.getPose().getTranslation();
+                if(trans.get(0)>100 || trans.get(0)<-100){
+                    if(trans.get(0)<0){
+                        right(1);
+                    }else{
+                        left(1);
+                    }
                 }else{
-                    turning_left = true;
-                    robot.leftMotor.setPower(left);
-                    robot.rightMotor.setPower(0);
+                    if(trans.get(1)<-100){
+                        back(1);
+                    }else{
+                        telemetry.addData("Done", "Tracking Done.");
+                    }
                 }
+                isTracking = true;
             }
 
-            //Color Sensing: Not Tested
-            /*
-            if(robot.cSensorButton.blue()>BLUE_LIGHT_THRESHOLD){
-                if(servo1Pos<1)
-                    servo1Pos+=servoIncrement;
-                if(servo2Pos>0)
-                    servo2Pos-=servoIncrement;
-            }else{
-                if(servo1Pos>0)
-                    servo1Pos-=servoIncrement;
-                if(servo2Pos<1)
-                    servo2Pos+=servoIncrement;
+            if(lis1.isVisible() && !isTracking){
+                trans = lis1.getPose().getTranslation();
+                if(trans.get(0)>100 || trans.get(0)<-100){
+                    if(trans.get(0)<0){
+                        right(1);
+                    }else{
+                        left(1);
+                    }
+                }else{
+                    if(trans.get(1)<-100){
+                        back(1);
+                    }else{
+                        telemetry.addData("Done", "Tracking Done.");
+                    }
+                }
+                isTracking = true;
             }
 
-            robot.servo1.setPosition(servo1Pos);
-            robot.servo2.setPosition(servo2Pos);
-            */
-            // Send telemetry message to signify robot running;
-            //telemetry.addData("left",  "%.2f", left);
-            //telemetry.addData("right", "%.2f", right);
-            telemetry.addData("Color Light", robot.cSensorLine.alpha());
-            //telemetry.addData("Color Blue", robot.cSensorButton.blue());
+            if(lis2.isVisible() && !isTracking){
+                trans = lis2.getPose().getTranslation();
+                if(trans.get(0)>100 || trans.get(0)<-100){
+                    if(trans.get(0)<0){
+                        right(1);
+                    }else{
+                        left(1);
+                    }
+                }else{
+                    if(trans.get(1)<-100){
+                        back(1);
+                    }else{
+                        telemetry.addData("Done", "Tracking Done.");
+                    }
+                }
+                isTracking = true;
+            }
+
+            if(lis3.isVisible() && !isTracking){
+                trans = lis3.getPose().getTranslation();
+                if(trans.get(0)>100 || trans.get(0)<-100){
+                    if(trans.get(0)<0){
+                        right(1);
+                    }else{
+                        left(1);
+                    }
+                }else{
+                    if(trans.get(1)<-100){
+                        back(1);
+                    }else{
+                        telemetry.addData("Done", "Tracking Done.");
+                    }
+                }
+                isTracking = true;
+            }
+
+            if(isTracking) {
+                telemetry.addData("Status", "Status: Currently Tracking");
+                telemetry.addData("Translation", "Translation Matrix: " + trans);
+            }else {
+                telemetry.addData("Status", "Status: Not Currently Tracking");
+            }
             telemetry.update();
 
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
             robot.waitForTick(40);
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
+    }
+    private void right(double i){
+        robot.rightDownMotor.setPower(-i);
+        robot.leftDownMotor.setPower(i);
+        robot.rightUpMotor.setPower(-i);
+        robot.leftUpMotor.setPower(i);
+    }
+    private void left(double i){
+        right(-i);
+    }
+    private void forward(double i){
+        robot.rightDownMotor.setPower(i);
+        robot.leftDownMotor.setPower(i);
+        robot.rightUpMotor.setPower(i);
+        robot.leftUpMotor.setPower(i);
+    }
+    private void back(double i){
+        forward(-i);
     }
 
 

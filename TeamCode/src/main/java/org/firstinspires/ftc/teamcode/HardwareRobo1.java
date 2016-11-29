@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -30,16 +31,16 @@ import org.firstinspires.ftc.robotcontroller.internal.testcode.TestColorSensors;
 public class HardwareRobo1
 {
     /* Public OpMode members. */
-    public DcMotor  leftMotor   = null;
-    public DcMotor  rightMotor  = null;
+    public DcMotor leftUpMotor  = null;
+    public DcMotor rightUpMotor = null;
+    public DcMotor leftDownMotor = null;
+    public DcMotor rightDownMotor = null;
+    public DcMotor intake = null;
     public Servo servo1 = null;
-    public Servo servo2 = null;
-    public ColorSensor cSensorLine = null;
-    public ColorSensor cSensorButton = null;
 
     /* Local OpMode members. */
     HardwareMap hwMap  = null;
-    private ElapsedTime period  = new ElapsedTime();
+    private ElapsedTime period = new ElapsedTime();
     private double ServoInitialPos = 0;
 
     /* Constructor */
@@ -52,27 +53,30 @@ public class HardwareRobo1
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        //leftMotor   = hwMap.dcMotor.get("left motor");
-        //rightMotor  = hwMap.dcMotor.get("right motor");
-        //leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        leftUpMotor   = hwMap.dcMotor.get("left up motor");
+        rightUpMotor  = hwMap.dcMotor.get("right up motor");
+        leftDownMotor = hwMap.dcMotor.get("left down motor");
+        rightDownMotor = hwMap.dcMotor.get("right down motor");
+        intake = hwMap.dcMotor.get("intake");
 
+        leftUpMotor.setDirection(DcMotor.Direction.REVERSE);
+        leftDownMotor.setDirection(DcMotor.Direction.REVERSE);
         // Set all motors to zero power
-        //leftMotor.setPower(0);
-        //rightMotor.setPower(0);
+        leftUpMotor.setPower(0);
+        rightUpMotor.setPower(0);
+        leftDownMotor.setPower(0);
+        rightDownMotor.setPower(0);
+        intake.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        //leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftUpMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightUpMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDownMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDownMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         servo1 = hwMap.servo.get("servo1");
-        servo2 = hwMap.servo.get("servo2");
-
         servo1.setPosition(ServoInitialPos);
-        servo2.setPosition(ServoInitialPos);
-
-        //cSensorLine = hwMap.colorSensor.get("csl");
-        cSensorButton = hwMap.colorSensor.get("csb");
 
     }
 

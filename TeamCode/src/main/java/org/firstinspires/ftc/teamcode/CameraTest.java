@@ -34,19 +34,15 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwareK9bot;
-
 //Hardware for the robot is defined by HardwareRobo1
 
-//@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOpRobo1", group="Robo1")
-public class TeleOpRobo1 extends LinearOpMode {
+//@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="CameraTest", group="Robo1")
+public class CameraTest extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareRobo1   robot           = new HardwareRobo1();              // Use a K9'shardware
+    HardwareRobo1   robot           = new HardwareRobo1();              // Use a K9's hardware
     @Override
     public void runOpMode() throws InterruptedException {
-        double left;
-        double right;
 
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -54,7 +50,7 @@ public class TeleOpRobo1 extends LinearOpMode {
         robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Hello Driver");    //
+        telemetry.addData("Say", "Running Autonomous");    //
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
@@ -63,22 +59,12 @@ public class TeleOpRobo1 extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-//            left = -gamepad1.left_stick_y;
-//            right = -gamepad1.right_stick_y;
-//            robot.leftMotor.setPower(left);
-//            robot.rightMotor.setPower(right);
-//
-//            // Send telemetry message to signify robot running;
-//            telemetry.addData("left",  "%.2f", left);
-//            telemetry.addData("right", "%.2f", right);
-//            telemetry.addData("Color Light", robot.cSensorLine.alpha());
-//            telemetry.addData("Color Red", robot.cSensorButton.red());
-//            telemetry.update();
-
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
+
             robot.waitForTick(40);
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
     }
+
+
 }
