@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -28,6 +29,7 @@ import org.firstinspires.ftc.robotcontroller.internal.testcode.TestColorSensors;
  *   As the arm servo approaches 0, the arm position moves up (away from the floor).
  *   As the claw servo approaches 0, the claw opens up (drops the game element).
  */
+@TeleOp(name="Hardware", group="Robot")
 public class HardwareRobo1
 {
     /* Public OpMode members. */
@@ -35,8 +37,8 @@ public class HardwareRobo1
     public DcMotor rightUpMotor = null;
     public DcMotor leftDownMotor = null;
     public DcMotor rightDownMotor = null;
-    public DcMotor intake = null;
-    public Servo servo1 = null;
+    //public DcMotor intake = null;
+    //  public Servo servo1 = null;
 
     /* Local OpMode members. */
     HardwareMap hwMap  = null;
@@ -53,11 +55,11 @@ public class HardwareRobo1
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftUpMotor   = hwMap.dcMotor.get("left up motor");
-        rightUpMotor  = hwMap.dcMotor.get("right up motor");
-        leftDownMotor = hwMap.dcMotor.get("left down motor");
-        rightDownMotor = hwMap.dcMotor.get("right down motor");
-        intake = hwMap.dcMotor.get("intake");
+        leftUpMotor   = hwMap.dcMotor.get("leftUpMotor");
+        rightUpMotor  = hwMap.dcMotor.get("rightUpMotor");
+        leftDownMotor = hwMap.dcMotor.get("leftDownMotor");
+        rightDownMotor = hwMap.dcMotor.get("rightDownMotor");
+        //intake = hwMap.dcMotor.get("intake");
 
         leftUpMotor.setDirection(DcMotor.Direction.REVERSE);
         leftDownMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -66,7 +68,7 @@ public class HardwareRobo1
         rightUpMotor.setPower(0);
         leftDownMotor.setPower(0);
         rightDownMotor.setPower(0);
-        intake.setPower(0);
+        //intake.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -75,8 +77,8 @@ public class HardwareRobo1
         rightDownMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightDownMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        servo1 = hwMap.servo.get("servo1");
-        servo1.setPosition(ServoInitialPos);
+        //servo1 = hwMap.servo.get("servo1");
+        //servo1.setPosition(ServoInitialPos);
 
     }
 
