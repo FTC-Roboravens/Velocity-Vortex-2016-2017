@@ -37,9 +37,7 @@ public class HardwareRobo1
     public DcMotor rightUpMotor = null;
     public DcMotor leftDownMotor = null;
     public DcMotor rightDownMotor = null;
-    //public DcMotor intake = null;
-    //  public Servo servo1 = null;
-
+    public DcMotor intake = null;
     /* Local OpMode members. */
     HardwareMap hwMap  = null;
     private ElapsedTime period = new ElapsedTime();
@@ -59,8 +57,7 @@ public class HardwareRobo1
         rightUpMotor  = hwMap.dcMotor.get("rightUpMotor");
         leftDownMotor = hwMap.dcMotor.get("leftDownMotor");
         rightDownMotor = hwMap.dcMotor.get("rightDownMotor");
-        //intake = hwMap.dcMotor.get("intake");
-
+        intake = hwMap.dcMotor.get("intake");
         leftUpMotor.setDirection(DcMotor.Direction.REVERSE);
         leftDownMotor.setDirection(DcMotor.Direction.REVERSE);
         // Set all motors to zero power
@@ -76,10 +73,6 @@ public class HardwareRobo1
         rightUpMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightDownMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightDownMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        //servo1 = hwMap.servo.get("servo1");
-        //servo1.setPosition(ServoInitialPos);
-
     }
 
     /***

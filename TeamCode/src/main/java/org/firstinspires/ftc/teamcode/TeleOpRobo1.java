@@ -34,13 +34,12 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwareK9bot;
 
 //Hardware for the robot is defined by HardwareRobo1
 
 //@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOpRobo1", group="Robo1")
-@TeleOp(name="TeleOperation", group="Robot")
+@TeleOp(name="TeleOpRobo1", group="Robo1")
 public class TeleOpRobo1 extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -100,6 +99,7 @@ public class TeleOpRobo1 extends LinearOpMode {
                     robot.rightUpMotor.setPower(-1);
                 }
             }
+            // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
             robot.waitForTick(40);
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }

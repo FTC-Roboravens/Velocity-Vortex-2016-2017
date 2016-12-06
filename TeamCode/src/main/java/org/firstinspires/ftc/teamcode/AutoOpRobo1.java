@@ -46,7 +46,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 //Hardware for the robot is defined by HardwareRobo1
-@Autonomous(name="Auto1", group = "Robo1")
+@Autonomous(name="AutoRobo1", group = "Robo1")
 //@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="AutoOpRobo1", group="Robo1")
 public class AutoOpRobo1 extends LinearOpMode {
 
