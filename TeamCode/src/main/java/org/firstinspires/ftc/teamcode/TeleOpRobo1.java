@@ -33,12 +33,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwareK9bot;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 //Hardware for the robot is defined by HardwareRobo1
 
-//@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOpRobo1", group="Robo1")
+@TeleOp(name="TeleOpRobo1", group="Robo1")
 public class TeleOpRobo1 extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -63,19 +62,40 @@ public class TeleOpRobo1 extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-//            left = -gamepad1.left_stick_y;
-//            right = -gamepad1.right_stick_y;
-//            robot.leftMotor.setPower(left);
-//            robot.rightMotor.setPower(right);
-//
-//            // Send telemetry message to signify robot running;
-//            telemetry.addData("left",  "%.2f", left);
-//            telemetry.addData("right", "%.2f", right);
-//            telemetry.addData("Color Light", robot.cSensorLine.alpha());
-//            telemetry.addData("Color Red", robot.cSensorButton.red());
-//            telemetry.update();
+            if(Math.abs(gamepad1.left_stick_y) >= Math.abs(gamepad1.left_stick_x)){
+                robot.leftDownMotor.setPower(-gamepad1.left_stick_y);
+                robot.leftUpMotor.setPower(-gamepad1.left_stick_y);
+                robot.rightDownMotor.setPower(-gamepad1.left_stick_y);
+                robot.rightUpMotor.setPower(-gamepad1.left_stick_y);
+            }
+            else if(gamepad1.left_stick_y<=gamepad1.left_stick_x && gamepad1.left_stick_x>0){
+                robot.leftDownMotor.setPower(-1);
+                robot.leftUpMotor.setPower(-1);
+                robot.rightDownMotor.setPower(1);
+                robot.rightUpMotor.setPower(1);
+            }
+            //changed the <> sign below to >
+            else if(gamepad1.left_stick_y>=gamepad1.left_stick_x && gamepad1.left_stick_x<0){
+                robot.leftDownMotor.setPower(1);
+                robot.leftUpMotor.setPower(1);
+                robot.rightDownMotor.setPower(-1);
+                robot.rightUpMotor.setPower(-1);
+            }
 
+            if(gamepad1.right_bumper){
+                if(gamepad1.left_stick_y<=gamepad1.left_stick_x && gamepad1.left_stick_x>0){
+                    robot.leftDownMotor.setPower(1);
+                    robot.leftUpMotor.setPower(-1);
+                    robot.rightDownMotor.setPower(-1);
+                    robot.rightUpMotor.setPower(1);
+                }
+                //changed the <> sign below to >
+                if(gamepad1.left_stick_y>=gamepad1.left_stick_x && gamepad1.left_stick_x<0){
+                    robot.leftDownMotor.setPower(-1);
+                    robot.leftUpMotor.setPower(1);
+                    robot.rightDownMotor.setPower(1);
+                    robot.rightUpMotor.setPower(-1);
+                }
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
             robot.waitForTick(40);
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop

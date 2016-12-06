@@ -36,7 +36,6 @@ public class HardwareRobo1
     public DcMotor leftDownMotor = null;
     public DcMotor rightDownMotor = null;
     public DcMotor intake = null;
-    public Servo servo1 = null;
 
     /* Local OpMode members. */
     HardwareMap hwMap  = null;
@@ -53,10 +52,10 @@ public class HardwareRobo1
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftUpMotor   = hwMap.dcMotor.get("left up motor");
-        rightUpMotor  = hwMap.dcMotor.get("right up motor");
-        leftDownMotor = hwMap.dcMotor.get("left down motor");
-        rightDownMotor = hwMap.dcMotor.get("right down motor");
+        leftUpMotor   = hwMap.dcMotor.get("leftUpMotor");
+        rightUpMotor  = hwMap.dcMotor.get("rightUpMotor");
+        leftDownMotor = hwMap.dcMotor.get("leftDownMotor");
+        rightDownMotor = hwMap.dcMotor.get("rightDownMotor");
         intake = hwMap.dcMotor.get("intake");
 
         leftUpMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -74,9 +73,6 @@ public class HardwareRobo1
         rightUpMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightDownMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightDownMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        servo1 = hwMap.servo.get("servo1");
-        servo1.setPosition(ServoInitialPos);
 
     }
 
