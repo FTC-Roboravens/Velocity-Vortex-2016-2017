@@ -64,6 +64,12 @@ public class TeleOpRobo1 extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
+//            if(gamepad1.x){
+//                robot.intake.setPower(1);
+//            }else if(gamepad1.y){
+//                robot.intake.setPower(-1);
+//            }
+
             if(Math.abs(gamepad1.left_stick_y) >= Math.abs(gamepad1.left_stick_x)){
                 robot.leftDownMotor.setPower(-gamepad1.left_stick_y);
                 robot.leftUpMotor.setPower(-gamepad1.left_stick_y);
@@ -104,4 +110,5 @@ public class TeleOpRobo1 extends LinearOpMode {
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
     }
+}
 }
