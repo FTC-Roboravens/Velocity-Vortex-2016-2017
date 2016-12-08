@@ -45,12 +45,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 //Hardware for the robot is defined by HardwareRobo1
-@Autonomous(name="AutoRobo1", group = "Robo1")
+@Autonomous(name="AutoTest1", group = "Test1")
 //@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="AutoOpRobo1", group="Robo1")
-public class AutoOpRobo1 extends LinearOpMode {
+public class AutoOpTest1 extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareRobo1 robot = new HardwareRobo1();
+    HardwareTest1 robot = new HardwareTest1();
     boolean isTracking = false;
     VectorF trans = null;
     @Override
@@ -92,7 +92,7 @@ public class AutoOpRobo1 extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            right(1);
+            right();
             telemetry.update();
 
             if(lis0.isVisible()){
@@ -101,13 +101,13 @@ public class AutoOpRobo1 extends LinearOpMode {
                     trans = lis0.getPose().getTranslation();
                     if (trans.get(0) > 100 || trans.get(0) < -100) {
                         if (trans.get(0) < 0) {
-                            left(1);
+                            left();
                         } else {
-                            right(1);
+                            right();
                         }
                     } else {
                         if (trans.get(2) < -300) {
-                            forward(1);
+                            forward();
                         } else {
                             telemetry.addData("Status", "Tracking Done.");
                             isTracking = false;
@@ -124,13 +124,13 @@ public class AutoOpRobo1 extends LinearOpMode {
                     trans = lis1.getPose().getTranslation();
                     if (trans.get(0) > 100 || trans.get(0) < -100) {
                         if (trans.get(0) < 0) {
-                            left(1);
+                            left();
                         } else {
-                            right(1);
+                            right();
                         }
                     } else {
                         if (trans.get(2) < -300) {
-                            forward(1);
+                            forward();
                         } else {
                             telemetry.addData("Status", "Tracking Done.");
                             isTracking = false;
@@ -147,13 +147,13 @@ public class AutoOpRobo1 extends LinearOpMode {
                     trans = lis2.getPose().getTranslation();
                     if (trans.get(0) > 100 || trans.get(0) < -100) {
                         if (trans.get(0) < 0) {
-                            left(1);
+                            left();
                         } else {
-                            right(1);
+                            right();
                         }
                     } else {
                         if (trans.get(2) < -300) {
-                            forward(1);
+                            forward();
                         } else {
                             telemetry.addData("Status", "Tracking Done.");
                             isTracking = false;
@@ -170,13 +170,13 @@ public class AutoOpRobo1 extends LinearOpMode {
                     trans = lis3.getPose().getTranslation();
                     if (trans.get(0) > 100 || trans.get(0) < -100) {
                         if (trans.get(0) < 0) {
-                            left(1);
+                            left();
                         } else {
-                            right(1);
+                            right();
                         }
                     } else {
                         if (trans.get(2) < -300) {
-                            forward(1);
+                            forward();
                         } else {
                             telemetry.addData("Status", "Tracking Done.");
                             isTracking = false;
@@ -190,27 +190,16 @@ public class AutoOpRobo1 extends LinearOpMode {
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
     }
-
-    private void right(double i){
-        robot.rightDownMotor.setPower(-i);
-        robot.leftDownMotor.setPower(i);
-        robot.rightUpMotor.setPower(-i);
-        robot.leftUpMotor.setPower(i);
+    private void right() {
         telemetry.addData("Status", "Status: Moving Right");
     }
-    private void left(double i){
-        right(-i);
+    private void left() {
         telemetry.addData("Status", "Status: Moving Left");
     }
-    private void forward(double i){
-        robot.rightDownMotor.setPower(i);
-        robot.leftDownMotor.setPower(i);
-        robot.rightUpMotor.setPower(i);
-        robot.leftUpMotor.setPower(i);
+    private void forward(){
         telemetry.addData("Status", "Status: Moving Forward");
     }
-    private void back(double i){
-        forward(-i);
+    private void back(){
         telemetry.addData("Status", "Status: Moving Backward");
     }
 
