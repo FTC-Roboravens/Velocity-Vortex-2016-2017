@@ -51,8 +51,12 @@ public class AutoOpRobo1 extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareRobo1 robot = new HardwareRobo1();
-    boolean isTracking = false;
+    int isTracking = 0;
     VectorF trans = null;
+    public VuforiaTrackableDefaultListener lis0;
+    public VuforiaTrackableDefaultListener lis1;
+    public VuforiaTrackableDefaultListener lis2;
+    public VuforiaTrackableDefaultListener lis3;
     @Override
     public void runOpMode() throws InterruptedException, NullPointerException {
 
@@ -81,119 +85,127 @@ public class AutoOpRobo1 extends LinearOpMode {
 
         beacons.activate();
 
-        VuforiaTrackableDefaultListener lis0 = (VuforiaTrackableDefaultListener)beacons.get(0).getListener();
-        VuforiaTrackableDefaultListener lis1 = (VuforiaTrackableDefaultListener)beacons.get(1).getListener();
-        VuforiaTrackableDefaultListener lis2 = (VuforiaTrackableDefaultListener)beacons.get(2).getListener();
-        VuforiaTrackableDefaultListener lis3 = (VuforiaTrackableDefaultListener)beacons.get(3).getListener();
+        lis0 = (VuforiaTrackableDefaultListener)beacons.get(0).getListener();
+        lis1 = (VuforiaTrackableDefaultListener)beacons.get(1).getListener();
+        lis2 = (VuforiaTrackableDefaultListener)beacons.get(2).getListener();
+        lis3 = (VuforiaTrackableDefaultListener)beacons.get(3).getListener();
 
 
         // Wait for the game to start (driver presses PLAY)
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
-            right(1);
-            telemetry.update();
-
-            if(lis0.isVisible()){
-                isTracking = true;
-                while(isTracking) {
-                    trans = lis0.getPose().getTranslation();
-                    if (trans.get(0) > 100 || trans.get(0) < -100) {
-                        if (trans.get(0) < 0) {
-                            left(1);
-                        } else {
-                            right(1);
-                        }
-                    } else {
-                        if (trans.get(2) < -300) {
-                            forward(1);
-                        } else {
-                            telemetry.addData("Status", "Tracking Done.");
-                            isTracking = false;
-                        }
-                    }
-                    telemetry.addData("Location", "x: " + trans.get(0) + "\ty: " + trans.get(2));
-                    telemetry.update();
-                }
+            if(isTracking==0) {
+                back(0.25);
+                telemetry.update();
+                track();
             }
-
-            if(lis1.isVisible()){
-                isTracking = true;
-                while(isTracking) {
-                    trans = lis1.getPose().getTranslation();
-                    if (trans.get(0) > 100 || trans.get(0) < -100) {
-                        if (trans.get(0) < 0) {
-                            left(1);
-                        } else {
-                            right(1);
-                        }
-                    } else {
-                        if (trans.get(2) < -300) {
-                            forward(1);
-                        } else {
-                            telemetry.addData("Status", "Tracking Done.");
-                            isTracking = false;
-                        }
-                    }
-                    telemetry.addData("Location", "x: " + trans.get(0) + "\ty: " + trans.get(2));
-                    telemetry.update();
-                }
-            }
-
-            if(lis2.isVisible()){
-                isTracking = true;
-                while(isTracking) {
-                    trans = lis2.getPose().getTranslation();
-                    if (trans.get(0) > 100 || trans.get(0) < -100) {
-                        if (trans.get(0) < 0) {
-                            left(1);
-                        } else {
-                            right(1);
-                        }
-                    } else {
-                        if (trans.get(2) < -300) {
-                            forward(1);
-                        } else {
-                            telemetry.addData("Status", "Tracking Done.");
-                            isTracking = false;
-                        }
-                    }
-                    telemetry.addData("Location", "x: " + trans.get(0) + "\ty: " + trans.get(2));
-                    telemetry.update();
-                }
-            }
-
-            if(lis3.isVisible()){
-                isTracking = true;
-                while(isTracking) {
-                    trans = lis3.getPose().getTranslation();
-                    if (trans.get(0) > 100 || trans.get(0) < -100) {
-                        if (trans.get(0) < 0) {
-                            left(1);
-                        } else {
-                            right(1);
-                        }
-                    } else {
-                        if (trans.get(2) < -300) {
-                            forward(1);
-                        } else {
-                            telemetry.addData("Status", "Tracking Done.");
-                            isTracking = false;
-                        }
-                    }
-                    telemetry.addData("Location", "x: " + trans.get(0) + "\ty: " + trans.get(2));
-                    telemetry.update();
-                }
+            else if (isTracking==2){
+                left(0.15);
+                sleep(3000);
+                back(0.25);
+                track();
             }
             robot.waitForTick(40);
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
     }
+    private void track(){
+        if(lis0.isVisible()){
+            isTracking = 1;
+            while(isTracking==1) {
+                trans = lis0.getPose().getTranslation();
+                if (trans.get(0) > 100 || trans.get(0) < -100) {
+                    if (trans.get(0) < 0) {
+                        back(0.25);
+                    } else {
+                        forward(0.25);
+                    }
+                } else {
+                    if (trans.get(2) < -300) {
+                        right(0.15);
+                    } else {
+                        telemetry.addData("Status", "Tracking Done.");
+                        isTracking = 2;
+                    }
+                }
+                telemetry.addData("Location", "x: " + trans.get(0) + "\ty: " + trans.get(2));
+                telemetry.update();
+            }
+        }
 
+        if(lis1.isVisible()){
+            isTracking = 1;
+            while(isTracking==1) {
+                trans = lis1.getPose().getTranslation();
+                if (trans.get(0) > 100 || trans.get(0) < -100) {
+                    if (trans.get(0) < 0) {
+                        back(0.25);
+                    } else {
+                        forward(0.25);
+                    }
+                } else {
+                    if (trans.get(2) < -300) {
+                        right(0.15);
+                    } else {
+                        telemetry.addData("Status", "Tracking Done.");
+                        isTracking = 2;
+                    }
+                }
+                telemetry.addData("Location", "x: " + trans.get(0) + "\ty: " + trans.get(2));
+                telemetry.update();
+            }
+        }
+
+        if(lis2.isVisible()){
+            isTracking = 1;
+            while(isTracking==1) {
+                trans = lis2.getPose().getTranslation();
+                if (trans.get(0) > 100 || trans.get(0) < -100) {
+                    if (trans.get(0) < 0) {
+                        back(0.25);
+                    } else {
+                        forward(0.25);
+                    }
+                } else {
+                    if (trans.get(2) < -300) {
+                        right(0.15);
+                    } else {
+                        telemetry.addData("Status", "Tracking Done.");
+                        isTracking = 2;
+                    }
+                }
+                telemetry.addData("Location", "x: " + trans.get(0) + "\ty: " + trans.get(2));
+                telemetry.update();
+            }
+        }
+
+        if(lis3.isVisible()){
+            isTracking = 1;
+            while(isTracking==1) {
+                trans = lis3.getPose().getTranslation();
+                if (trans.get(0) > 100 || trans.get(0) < -100) {
+                    if (trans.get(0) < 0) {
+                        back(0.25);
+                    } else {
+                        forward(0.25);
+                    }
+                } else {
+                    if (trans.get(2) < -300) {
+                        right(0.15);
+                    } else {
+                        telemetry.addData("Status", "Tracking Done.");
+                        isTracking = 2;
+                    }
+                }
+                telemetry.addData("Location", "x: " + trans.get(0) + "\ty: " + trans.get(2));
+                telemetry.update();
+            }
+        }
+    }
     private void right(double i){
-        robot.rightDownMotor.setPower(-i);
-        robot.leftDownMotor.setPower(i);
+        robot.rightDownMotor.setPower(i);
+        robot.leftDownMotor.setPower(-i);
         robot.rightUpMotor.setPower(-i);
         robot.leftUpMotor.setPower(i);
         telemetry.addData("Status", "Status: Moving Right");
