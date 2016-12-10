@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -37,13 +38,17 @@ public class HardwareRobo1
     public DcMotor rightUpMotor = null;
     public DcMotor leftDownMotor = null;
     public DcMotor rightDownMotor = null;
+    public Servo colorPush = null;
 
+    ColorSensor sensorRGB = null;
+    DeviceInterfaceModule cdim = null;
+    static final int LED_CHANNEL = 5;
     //public DcMotor intake = null;
 
     /* Local OpMode members. */
     HardwareMap hwMap  = null;
     private ElapsedTime period = new ElapsedTime();
-    private double ServoInitialPos = 0;
+
 
     /* Constructor */
     public HardwareRobo1() {
@@ -54,6 +59,10 @@ public class HardwareRobo1
         // save reference to HW Map
         hwMap = ahwMap;
 
+        sensorRGB = hwMap.colorSensor.get("color");
+        cdim = hwMap.deviceInterfaceModule.get("dim");
+
+        colorPush = hwMap.servo.get("colorPush");
         // Define and Initialize Motors
         leftUpMotor   = hwMap.dcMotor.get("leftUp");
         rightUpMotor  = hwMap.dcMotor.get("rightUp");
