@@ -32,6 +32,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
+import android.app.Activity;
+import android.graphics.Color;
+import android.view.View;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.Hardware;
@@ -50,6 +54,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 public class AutoOpRobo1 extends LinearOpMode {
 
     /* Declare OpMode members. */
+    String teamColor = "blue";
     HardwareRobo1 robot = new HardwareRobo1();
     int isTracking = 0;
     VectorF trans = null;
@@ -57,6 +62,13 @@ public class AutoOpRobo1 extends LinearOpMode {
     public VuforiaTrackableDefaultListener lis1;
     public VuforiaTrackableDefaultListener lis2;
     public VuforiaTrackableDefaultListener lis3;
+
+    static final double INCREMENT   =  0.5;     // amount to slew servo each CYCLE_MS cycle
+    static final double MAX_POS     =  1.0;     // Maximum rotational position
+    static final double MIN_POS     =  0.0;     // Minimum rotational position
+    double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
+    //color sensor stuff
+
     @Override
     public void runOpMode() throws InterruptedException, NullPointerException {
 
@@ -64,7 +76,7 @@ public class AutoOpRobo1 extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
-        // Send telemetry message to signify robot waiting;
+
         telemetry.addData("Say", "Running Autonomous");    //
         telemetry.update();
 
@@ -95,22 +107,45 @@ public class AutoOpRobo1 extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+            robot.colorPush.setPosition(position);
             if(isTracking==0) {
                 back(0.25);
                 telemetry.update();
                 track();
             }
             else if (isTracking==2){
-                left(0.15);
+               /* left(0.15);
                 sleep(3000);
                 back(0.25);
-                track();
+                track();*/
             }
             robot.waitForTick(40);
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
     }
-    private void track(){
+    private void detectColor(){
+        telemetry.addData("Red  ", robot.sensorRGB.red());
+        telemetry.addData("Green", robot.sensorRGB.green());
+        telemetry.addData("Blue ", robot.sensorRGB.blue());
+        telemetry.update();
+         if (teamColor.equalsIgnoreCase("blue")){
+            if (robot.sensorRGB.red() > robot.sensorRGB.blue()) {
+                position += INCREMENT;
+            } else if (robot.sensorRGB.red() < robot.sensorRGB.blue()) {
+                position -= INCREMENT;
+            }
+             robot.colorPush.setPosition(position);
+        }
+        else if(teamColor.equalsIgnoreCase("red")){
+             if (robot.sensorRGB.red() < robot.sensorRGB.blue()) {
+                 position -= INCREMENT;
+             } else if (robot.sensorRGB.red() < robot.sensorRGB.blue()) {
+                 position += INCREMENT;
+             }
+             robot.colorPush.setPosition(position);
+         }
+    }
+       private void track(){
         if(lis0.isVisible()){
             isTracking = 1;
             while(isTracking==1) {
@@ -121,10 +156,12 @@ public class AutoOpRobo1 extends LinearOpMode {
                     } else {
                         forward(0.25);
                     }
+
                 } else {
                     if (trans.get(2) < -300) {
                         right(0.15);
                     } else {
+                        detectColor();
                         telemetry.addData("Status", "Tracking Done.");
                         isTracking = 2;
                     }
