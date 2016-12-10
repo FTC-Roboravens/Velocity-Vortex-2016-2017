@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -28,6 +29,7 @@ import org.firstinspires.ftc.robotcontroller.internal.testcode.TestColorSensors;
  *   As the arm servo approaches 0, the arm position moves up (away from the floor).
  *   As the claw servo approaches 0, the claw opens up (drops the game element).
  */
+@TeleOp(name="Hardware", group="Robot")
 public class HardwareRobo1
 {
     /* Public OpMode members. */
@@ -35,6 +37,7 @@ public class HardwareRobo1
     public DcMotor rightUpMotor = null;
     public DcMotor leftDownMotor = null;
     public DcMotor rightDownMotor = null;
+
     //public DcMotor intake = null;
 
     /* Local OpMode members. */
@@ -73,7 +76,6 @@ public class HardwareRobo1
         rightUpMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftDownMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightDownMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
     }
 
     /***
