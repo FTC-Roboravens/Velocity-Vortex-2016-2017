@@ -46,8 +46,6 @@ public class TeleOpRobo1 extends LinearOpMode {
     HardwareRobo1   robot           = new HardwareRobo1();              // Use a K9'shardware
     @Override
     public void runOpMode() throws InterruptedException {
-        double left;
-        double right;
 
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -63,49 +61,68 @@ public class TeleOpRobo1 extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
-//            if(gamepad1.x){
-//                robot.intake.setPower(1);
-//            }else if(gamepad1.y){
-//                robot.intake.setPower(-1);
-//            }
-
-            if(Math.abs(gamepad1.left_stick_y) >= Math.abs(gamepad1.left_stick_x)){
-                robot.leftDownMotor.setPower(-gamepad1.left_stick_y);
-                robot.leftUpMotor.setPower(-gamepad1.left_stick_y);
-                robot.rightDownMotor.setPower(-gamepad1.left_stick_y);
-                robot.rightUpMotor.setPower(-gamepad1.left_stick_y);
-            }
-            else if(gamepad1.left_stick_y<=gamepad1.left_stick_x && gamepad1.left_stick_x>0){
-                robot.leftDownMotor.setPower(-1);
-                robot.leftUpMotor.setPower(-1);
-                robot.rightDownMotor.setPower(1);
-                robot.rightUpMotor.setPower(1);
-           }
-            //changed the <> sign below to >
-            else if(gamepad1.left_stick_y>=gamepad1.left_stick_x && gamepad1.left_stick_x<0){
-                robot.leftDownMotor.setPower(1);
-                robot.leftUpMotor.setPower(1);
-                robot.rightDownMotor.setPower(-1);
-                robot.rightUpMotor.setPower(-1);
-            }
-
             if(gamepad1.right_bumper){
-                if(gamepad1.left_stick_y<=gamepad1.left_stick_x && gamepad1.left_stick_x>0){
-                    robot.leftDownMotor.setPower(1);
-                    robot.leftUpMotor.setPower(-1);
-                    robot.rightDownMotor.setPower(-1);
-                    robot.rightUpMotor.setPower(1);
-                }
-                //changed the <> sign below to >
-                if(gamepad1.left_stick_y>=gamepad1.left_stick_x && gamepad1.left_stick_x<0){
-                    robot.leftDownMotor.setPower(-1);
-                    robot.leftUpMotor.setPower(1);
-                    robot.rightDownMotor.setPower(1);
-                    robot.rightUpMotor.setPower(-1);
-                }
+                robot.colorPushR.setPower(1);
+            }else if(gamepad1.right_trigger>0){
+                robot.colorPushR.setPower(-1);
+            }else{
+                robot.colorPushR.setPower(0);
             }
+            if(gamepad1.left_bumper){
+                robot.colorPushL.setPower(1);
+            }else if(gamepad1.left_trigger>0){
+                robot.colorPushL.setPower(-1);
+            }else{
+                robot.colorPushL.setPower(0);
+            }
+            if(gamepad1.right_stick_x<0){
+                robot.BRMotor.setPower(-.75);
+                robot.FRMotor.setPower(-.75);
+                robot.BLMotor.setPower(.75);
+                robot.FLMotor.setPower(.75);
+            }else if(gamepad1.right_stick_x>0) {
+                robot.BRMotor.setPower(.75);
+                robot.FRMotor.setPower(.75);
+                robot.BLMotor.setPower(-.75);
+                robot.FLMotor.setPower(-.75);
+            }
+            else if(gamepad1.dpad_up){
+                robot.FLMotor.setPower(-1);
+                robot.FRMotor.setPower(-1);
+                robot.BLMotor.setPower(-1);
+                robot.BRMotor.setPower(-1);
+            }
+            else if(gamepad1.dpad_down){
+                robot.FLMotor.setPower(1);
+                robot.FRMotor.setPower(1);
+                robot.BLMotor.setPower(1);
+                robot.BRMotor.setPower(1);
+            }
+            else if(gamepad1.dpad_right){
+                robot.FLMotor.setPower(-1);
+                robot.FRMotor.setPower(1);
+                robot.BLMotor.setPower(1);
+                robot.BRMotor.setPower(-1);
+            }
+            else if(gamepad1.dpad_left){
+                robot.FLMotor.setPower(1);
+                robot.FRMotor.setPower(-1);
+                robot.BLMotor.setPower(-1);
+                robot.BRMotor.setPower(1);
+            }
+            else {
+                robot.FLMotor.setPower(0);
+                robot.FRMotor.setPower(0);
+                robot.BLMotor.setPower(0);
+                robot.BRMotor.setPower(0);
+            }
+
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
+            telemetry.addData("RGB", "Blue: " + robot.color.blue());
+            telemetry.addData("RGB", "Red: " + robot.color.red());
+            telemetry.addData("Light", "Light: " + robot.light.getLightDetected());
+            telemetry.addData("Light", "Light: " + robot.light.getRawLightDetected());
+            telemetry.update();
             robot.waitForTick(40);
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
