@@ -44,9 +44,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 //Hardware for the robot is defined by HardwareRobo1
-@Autonomous(name="AutoRoboB2", group = "Robo1")
+@Autonomous(name="AutoRoboR2", group = "Robo1")
 //@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="AutoOpRoboB", group="Robo1")
-public class AutoOpRoboBV2 extends LinearOpMode {
+public class AutoOpRoboRV2 extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareRobo1 robot = new HardwareRobo1();
@@ -122,12 +122,12 @@ public class AutoOpRoboBV2 extends LinearOpMode {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        robot.BRMotor.setPower(-.5);
-        robot.FRMotor.setPower(-.5);
-        robot.BLMotor.setPower(.5);
-        robot.FLMotor.setPower(.5);
+        robot.BRMotor.setPower(.5);
+        robot.FRMotor.setPower(.5);
+        robot.BLMotor.setPower(-.5);
+        robot.FLMotor.setPower(-.5);
         try {
-            Thread.sleep(850);
+            Thread.sleep(950);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -137,21 +137,21 @@ public class AutoOpRoboBV2 extends LinearOpMode {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        right(.5);
+        left(.5);
         try {
             Thread.sleep(600);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         stopping();
-        robot.FRMotor.setPower(-.5);
-        robot.BLMotor.setPower(-.5);
+        robot.BRMotor.setPower(-.5);
+        robot.FLMotor.setPower(-.5);
         try {
             Thread.sleep(3500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        left(0.15);
+        right(0.15);
         trackVuforia();
         back(0.25);
         try {
@@ -160,13 +160,13 @@ public class AutoOpRoboBV2 extends LinearOpMode {
             telemetry.addData("Error", "InterruptedException Error!");
             telemetry.update();
         }
-        left(0.3);
+        right(0.3);
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        left(0.15);
+        right(0.15);
         trackVuforia();
         back(.75);
         try {
@@ -180,8 +180,8 @@ public class AutoOpRoboBV2 extends LinearOpMode {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        robot.FRMotor.setPower(.75);
-        robot.BLMotor.setPower(.75);
+        robot.BRMotor.setPower(.75);
+        robot.FLMotor.setPower(.75);
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
@@ -194,7 +194,7 @@ public class AutoOpRoboBV2 extends LinearOpMode {
         telemetry.addData("Red  ", robot.color.red());
         telemetry.addData("Blue ", robot.color.blue());
         telemetry.update();
-        if (robot.color.red() > robot.color.blue()) {
+        if (robot.color.red() < robot.color.blue()) {
             robot.colorPushR.setPower(1);
             try{
                 Thread.sleep(1000);
@@ -210,7 +210,7 @@ public class AutoOpRoboBV2 extends LinearOpMode {
                 telemetry.update();
             }
             robot.colorPushR.setPower(0);
-        } else if (robot.color.red() < robot.color.blue()) {
+        } else if (robot.color.red() > robot.color.blue()) {
             robot.colorPushL.setPower(1);
             try{
                 Thread.sleep(1000);

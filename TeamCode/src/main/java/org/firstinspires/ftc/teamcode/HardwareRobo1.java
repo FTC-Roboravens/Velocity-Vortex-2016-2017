@@ -97,8 +97,8 @@ public class HardwareRobo1
         BLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        colorPushL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        colorPushR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        colorPushL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        colorPushR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     /***
