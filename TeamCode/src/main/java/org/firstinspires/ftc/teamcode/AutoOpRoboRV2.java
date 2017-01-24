@@ -97,97 +97,159 @@ public class AutoOpRoboRV2 extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
 
         // run until the end of the match (driver presses STOP)
-        robot.colorPushL.setPower(1);
-        try {
-            Thread.sleep(750);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        while(opModeIsActive()) {
+            if (opModeIsActive()) {
+                robot.colorPushL.setPower(1);
+                try {
+                    Thread.sleep(750);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                break;
+            }
+            if (opModeIsActive()) {
+                robot.colorPushL.setPower(-1);
+                try {
+                    Thread.sleep(900);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                robot.colorPushL.setPower(0);
+            }else{
+                break;
+            }
+            if (opModeIsActive()) {
+                back(.5);
+                try {
+                    Thread.sleep(350);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                break;
+            }
+            if (opModeIsActive()) {
+                stopping();
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                break;
+            }
+            if (opModeIsActive()) {
+                robot.BRMotor.setPower(.5);
+                robot.FRMotor.setPower(.5);
+                robot.BLMotor.setPower(-.5);
+                robot.FLMotor.setPower(-.5);
+                try {
+                    Thread.sleep(950);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                break;
+            }
+            if (opModeIsActive()) {
+                stopping();
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                break;
+            }
+            if (opModeIsActive()) {
+                left(.5);
+                try {
+                    Thread.sleep(600);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                break;
+            }
+            if (opModeIsActive()) {
+                stopping();
+                robot.BRMotor.setPower(-.5);
+                robot.FLMotor.setPower(-.5);
+                try {
+                    Thread.sleep(3500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                break;
+            }
+            if (opModeIsActive()) {
+                right(0.15);
+            }else{
+                break;
+            }
+            trackVuforia();
+            if (opModeIsActive()) {
+                back(0.25);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    telemetry.addData("Error", "InterruptedException Error!");
+                    telemetry.update();
+                }
+            }else{
+                break;
+            }
+            if (opModeIsActive()) {
+                right(0.3);
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                break;
+            }
+            if (opModeIsActive()) {
+                right(0.15);
+            }else{
+                break;
+            }
+            trackVuforia();
+            if (opModeIsActive()) {
+                back(.75);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                break;
+            }
+            if (opModeIsActive()) {
+                stopping();
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                break;
+            }
+            if (opModeIsActive()) {
+                robot.BRMotor.setPower(.75);
+                robot.FLMotor.setPower(.75);
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                break;
+            }
+            stopping();
         }
-        robot.colorPushL.setPower(-1);
-        try {
-            Thread.sleep(750);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        robot.colorPushL.setPower(0);
-        back(.5);
-        try {
-            Thread.sleep(350);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        stopping();
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        robot.BRMotor.setPower(.5);
-        robot.FRMotor.setPower(.5);
-        robot.BLMotor.setPower(-.5);
-        robot.FLMotor.setPower(-.5);
-        try {
-            Thread.sleep(950);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        stopping();
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        left(.5);
-        try {
-            Thread.sleep(600);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        stopping();
-        robot.BRMotor.setPower(-.5);
-        robot.FLMotor.setPower(-.5);
-        try {
-            Thread.sleep(3500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        right(0.15);
-        trackVuforia();
-        back(0.25);
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            telemetry.addData("Error", "InterruptedException Error!");
-            telemetry.update();
-        }
-        right(0.3);
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        right(0.15);
-        trackVuforia();
-        back(.75);
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        stopping();
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        robot.BRMotor.setPower(.75);
-        robot.FLMotor.setPower(.75);
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        stopping();
     }
 
     private void detectColor(){
