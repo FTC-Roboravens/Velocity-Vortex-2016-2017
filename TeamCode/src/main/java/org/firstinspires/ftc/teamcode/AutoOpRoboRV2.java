@@ -90,8 +90,6 @@ public class AutoOpRoboRV2 extends LinearOpMode {
         lis2 = (VuforiaTrackableDefaultListener) beacons.get(2).getListener();
         lis3 = (VuforiaTrackableDefaultListener) beacons.get(3).getListener();
 
-        robot.light.enableLed(true);
-
 
         waitForStart();
         // Wait for the game to start (driver presses PLAY)
@@ -145,7 +143,7 @@ public class AutoOpRoboRV2 extends LinearOpMode {
                 robot.BLMotor.setPower(-.5);
                 robot.FLMotor.setPower(-.5);
                 try {
-                    Thread.sleep(950);
+                    Thread.sleep(1050);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -193,7 +191,7 @@ public class AutoOpRoboRV2 extends LinearOpMode {
             if (opModeIsActive()) {
                 back(0.25);
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     telemetry.addData("Error", "InterruptedException Error!");
                     telemetry.update();
@@ -249,6 +247,7 @@ public class AutoOpRoboRV2 extends LinearOpMode {
                 break;
             }
             stopping();
+            break;
         }
     }
 

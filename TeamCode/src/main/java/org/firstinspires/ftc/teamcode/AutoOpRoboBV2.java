@@ -1,35 +1,3 @@
-/*
-Copyright (c) 2016 Robert Atkinson
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted (subject to the limitations in the disclaimer below) provided that
-the following conditions are met:
-
-Redistributions of source code must retain the above copyright notice, this list
-of conditions and the following disclaimer.
-
-Redistributions in binary form must reproduce the above copyright notice, this
-list of conditions and the following disclaimer in the documentation and/or
-other materials provided with the distribution.
-
-Neither the name of Robert Atkinson nor the names of his contributors may be used to
-endorse or promote products derived from this software without specific prior
-written permission.
-
-NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
-LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESSFOR A PARTICULAR PURPOSE
-ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
-TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
-THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -71,6 +39,7 @@ public class AutoOpRoboBV2 extends LinearOpMode {
         telemetry.addData("Say", "Running Autonomous");    //
         telemetry.update();
 
+        //initialize Vuforia
         VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId);
         params.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         params.vuforiaLicenseKey = "AbnwLPb/////AAAAGbZt0tXfv0+Xm9x4mKReybCGiDabToKD8Cj8lhIlHaNr56qx0TWoO+j3DvgPpRaXAZTgspbiBybsoRGhwCdO3Yt/6aA4USE9StUPcePbyL04IiUMNprqc9PzR7GG6vS6YQvnLYOjvrZTAQtO87krd1tJDYsYCY3coFwp3fsP7DudnCqoLk3D2po/QD56f9CenPq5J+dw4t3cOc+o05yQR4LCH9AWr+iG+1MaFUWhkHjkvfn1WmCCqW8kjNKtEJIXucAsA2z0PLUXDYsxJxm7WIQYc+HZGnElG/0isWaL0048nt7mMvLy7igRo2eGvVtt7lWdajrRKuZLrnJSWd/fjs7wVZ0jqv2NPIqwlp97k0qT";
@@ -85,12 +54,11 @@ public class AutoOpRoboBV2 extends LinearOpMode {
         beacons.get(3).setName("Gears");
         beacons.activate();
 
+        //initialize the listeners that find the visual cues
         lis0 = (VuforiaTrackableDefaultListener) beacons.get(0).getListener();
         lis1 = (VuforiaTrackableDefaultListener) beacons.get(1).getListener();
         lis2 = (VuforiaTrackableDefaultListener) beacons.get(2).getListener();
         lis3 = (VuforiaTrackableDefaultListener) beacons.get(3).getListener();
-
-        robot.light.enableLed(true);
 
 
         waitForStart();
@@ -98,6 +66,8 @@ public class AutoOpRoboBV2 extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while(opModeIsActive()) {
+            //run all of the initial movements
+            //(shoot the ball, line up with the wall, drive parallel to corner vortex)
             if (opModeIsActive()) {
                 robot.colorPushL.setPower(1);
                 try {
@@ -189,11 +159,12 @@ public class AutoOpRoboBV2 extends LinearOpMode {
             }else{
                 break;
             }
+            //track beacons
             trackVuforia();
             if(opModeIsActive()) {
                 back(0.25);
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     telemetry.addData("Error", "InterruptedException Error!");
                     telemetry.update();
@@ -216,7 +187,9 @@ public class AutoOpRoboBV2 extends LinearOpMode {
             }else{
                 break;
             }
+            //track beacons
             trackVuforia();
+            //hit the cap ball off and park
             if(opModeIsActive()) {
                 back(.75);
                 try {
@@ -245,14 +218,16 @@ public class AutoOpRoboBV2 extends LinearOpMode {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                stopping();
             }else{
                 break;
             }
+            stopping();
+            break;
         }
     }
 
     private void detectColor(){
+        //detects color and presses the correct respective button
         telemetry.addData("Red  ", robot.color.red());
         telemetry.addData("Blue ", robot.color.blue());
         telemetry.update();
@@ -292,6 +267,7 @@ public class AutoOpRoboBV2 extends LinearOpMode {
     }
 
     private void trackVuforia() throws InterruptedException {
+        //track the beacons
         while (opModeIsActive()) {
             if (lis0.isVisible() && !tracked1) {
                 while (opModeIsActive()){
@@ -408,7 +384,7 @@ public class AutoOpRoboBV2 extends LinearOpMode {
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
     }
-
+    //movement commands for simplicity
     private void right(double i){
         robot.FLMotor.setPower(-i);
         robot.FRMotor.setPower(i);

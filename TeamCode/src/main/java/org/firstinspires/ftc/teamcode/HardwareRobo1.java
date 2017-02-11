@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
+import com.qualcomm.robotcore.hardware.DigitalChannelController;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
@@ -41,6 +42,7 @@ import org.firstinspires.ftc.robotcontroller.internal.testcode.TestColorSensors;
 public class HardwareRobo1
 {
     /* Public OpMode members. */
+    private final int ledChannel = 1;
     public DcMotor FLMotor  = null;
     public DcMotor FRMotor = null;
     public DcMotor BLMotor = null;
@@ -80,6 +82,9 @@ public class HardwareRobo1
         FRMotor  = hwMap.dcMotor.get("fr");
         BLMotor = hwMap.dcMotor.get("bl");
         BRMotor = hwMap.dcMotor.get("br");
+
+        cdim.setDigitalChannelMode(ledChannel, DigitalChannelController.Mode.OUTPUT);
+        cdim.setDigitalChannelState(ledChannel, false);
 
         FLMotor.setDirection(DcMotor.Direction.REVERSE);
         BLMotor.setDirection(DcMotor.Direction.REVERSE);
